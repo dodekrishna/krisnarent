@@ -1,0 +1,44 @@
+<html>
+
+<head></head>
+
+<body>
+    <h3>Buat Pesanan</h3>
+    <form id="form">
+        <label for="name">Lokasi:</label><br />
+        <input type="text" name="Lokasi" required />
+        <br /><br />
+        <label for="date">Pengambilan:</label><br />
+        <input type="date" name="Pengambilan" required />
+        <br /><br />
+        <label for="date">Pengembalian:</label><br />
+        <input type="date" name="Pengembalian" required />
+        <br /><br />
+        <label for="name">Mobil:</label><br />
+        <input type="text" name="Mobil" required />
+        <br /><br />
+        <input type="submit" />
+    </form>
+
+    <script>
+        const electron = require("electron");
+        const {
+            ipcRenderer
+        } = electron;
+
+        const form = document.getElementById("form");
+        const elements = {};
+
+        form.addEventListener("submit", event => {
+            event.preventDefault();
+
+            for (let i = 0; i < form.elements.length; i++) {
+                if (form.elements[i].type !== "submit")
+                    elements[form.elements[i].name] = form.elements[i].value;
+            }
+            ipcRenderer.send("appointment:create", elements);
+        });
+    </script>
+</body>
+
+</html>
